@@ -9,6 +9,11 @@ type Option[T any] func(t T) error
 // Options is a slice of `Option` options.
 type Options[T any] []Option[T]
 
+// WithDefaults prepends defaults to the options slice so they are applied first.
+func WithDefaults[T any](options Options[T], defaults ...Option[T]) Options[T] {
+	return append(defaults, options...)
+}
+
 // Apply applies all functional options for type `T`
 // and returns the value or error if any fail to apply.
 func Apply[T any](t *T, options ...Option[*T]) (*T, error) {
